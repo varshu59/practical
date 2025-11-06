@@ -1,0 +1,22 @@
+from flask import Flask, request
+
+app = Flask(__name__)
+
+@app.route('/')
+def nth_largest():
+    try:
+        numbers = request.args.get('numbers')
+        n = int(request.args.get('n'))
+
+        num_list = list(map(int, numbers.split(',')))
+        if n > len(num_list) or n < 1:
+            return f"Invalid value of n. Must be between 1 and {len(num_list)}"
+
+        num_list.sort(reverse=True)
+        return f"The {n}th largest number is {num_list[n - 1]}"
+    except Exception as e:
+        return f"Error: {str(e)}"
+
+
+if __name__ == '__main__':
+    app.run(debug=True)
